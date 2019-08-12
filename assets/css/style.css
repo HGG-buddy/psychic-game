@@ -1,0 +1,21 @@
+
+
+body {
+    background-image: url(https://images-na.ssl-images-amazon.com/images/I/51VFV3pHfwL.jpg);
+    background-size: cover;
+}
+
+.container {
+    background-color:whitesmoke;
+}
+.header {
+    padding: 30px;
+    text-align: center;
+
+}
+p {
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    font-weight: 100%;
+}
