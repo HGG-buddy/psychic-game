@@ -1,8 +1,11 @@
+// QUESTIONS 
+// key restricter not work - line 38 
+// wordDatabasse somethings failed to pick a word
 
 
-// Questions - line 60, 82
 
 
+// Getting data from user interface
 var userOption = document.getElementById("userChoice");
 var instructText = document.getElementById("instruct");
 var wordText = document.getElementById("word");
@@ -12,24 +15,38 @@ var chosenLettersText = document.getElementById("letters");
 var hangedText = document.getElementById("hanged");
 
 
+// Settin default variable values
 var wins = 0;
 var attemptRecords = 0;
 var attemptsLimit = 15;
 var chosenLetters = [];
-var wordDatabase = ["software", "html", "javascript", "nodes", "console"];
+var wordDatabase = ["java", "php", "sql", "boostrap", "develop", "javascript"];
 var userGuess;
-var computerGuess;
+var computerGuess = wordDatabase[Math.floor(Math.random() * wordDatabase.length)];
+
+
+//Reset word on Win
+function updateGuess() {
+    computerGuess = wordDatabase[Math.floor(Math.random() * wordDatabase.length)];
+}
 
 
 
+// Master function
 document.onkeyup = function (event) {
+    userGuess = event.key;
 
-    var userGuess = event.key;
-    var computerGuess = "sql"
-    // wordDatabase[Math.floor(Math.random() * wordDatabase.length)];
+    // Not working
+    // var uncheckedLetters = event.key;
+    // var letters = /^[A-Za-z]+$/;
+    // if(uncheckedLetters.value.match(letters)) {
 
-    var computerGuessSplit = computerGuess.split([]); //split  generated word into array per letter
+    // uncheckedLetters = userGuess;
 
+    var computerGuessSplitDup = computerGuess.split([]); //split  generated word into array per letter
+
+
+    var computerGuessSplit = [...new Set(computerGuessSplitDup)]; //Remove Duplicate letters in array
 
     if (chosenLetters.includes(userGuess)) {
         alert("You have chosen a duplicate letter, please try something else.");
@@ -38,16 +55,18 @@ document.onkeyup = function (event) {
             chosenLetters.push(userGuess); //add to chosenLetters Array
             attemptRecords++; //add 1 attempt record 
 
-            chosenLettersText.textContent = "Chosen letters: " + chosenLetters;
+            chosenLettersText.textContent = "Correctly chosen: " + chosenLetters;
             attemptRecordText.textContent = "Attempts: " + attemptRecords;
             userOption.textContent = "Your guess: " + userGuess;
 
             console.log(chosenLetters);
             console.log(attemptRecords);
+            console.log(computerGuess);
+            console.log(computerGuessSplit);
 
         } else {
             attemptRecords++; //add 1 attempt record 
-            chosenLettersText.textContent = "Chosen letters: " + chosenLetters;
+            chosenLettersText.textContent = "Correctly chosen: " + chosenLetters;
             attemptRecordText.textContent = "Attempts: " + attemptRecords;
             userOption.textContent = "Your guess: " + userGuess;
 
@@ -77,21 +96,28 @@ document.onkeyup = function (event) {
         // elements of b[], so: return "success"
         console.log("User won");
         wins++;
-        winRecordText.textContent = "Won record: " + wins;
+        updateGuess();
+
+        winRecordText.textContent = "No. of Life Saved: " + wins;
         attemptRecords = 0;
         chosenLetters = [];
+        chosenLettersText.textContent = "Correctly chosen: " + chosenLetters;
+        attemptRecordText.textContent = "Attempts: " + attemptRecords;
+        userOption.textContent = "Your guess: " + userGuess;
 
-        
-  // ## how to restart play after win without losing the win record?
-  // Do I need 2 functions? with trigger to rerun game?
+        alert("You have saved 1 life. Continue.")
+
+
+        // ## how to restart play after win without losing the win record?
+        // Do I need 2 functions? with trigger to rerun game?
     }
 
-    if(attemptRecords >= attemptsLimit) {
+    if (attemptRecords >= attemptsLimit) {
         alert("You have reached your attempt limit. Please refresh page to start game again.");
     }
 
+    // } else alert("Please input letters.") // check letter function
 }
-
 
 
 // console.log(computerGuessSplit);
